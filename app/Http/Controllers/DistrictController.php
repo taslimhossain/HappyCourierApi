@@ -7,6 +7,7 @@ use App\Http\Requests\District\StoreDistrictRequest;
 use App\Http\Requests\District\UpdateDistrictRequest;
 use App\Http\Traits\Helpers\ApiResponseTrait;
 use App\Http\Resources\DistrictResource;
+use Illuminate\Http\Response;
 
 class DistrictController extends Controller
 {
@@ -30,7 +31,7 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        return ['hello create'];
+        return ['District create'];
     }
 
     /**
@@ -41,13 +42,14 @@ class DistrictController extends Controller
      */
     public function store(StoreDistrictRequest $request)
     {
-
         $request->validated();
         $district = new District();
         $district->name = $request->get('name');
-        $district->save();
-        
-        return $this->successResponse( new DistrictResource($district) );
+        if($district->save()){
+            return $this->successResponse( 'Data saved correctly', new DistrictResource($district) );
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -70,7 +72,8 @@ class DistrictController extends Controller
      */
     public function edit(District $district)
     {
-        return ['hello edit'];
+        $responseData = new DistrictResource($district);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -82,7 +85,15 @@ class DistrictController extends Controller
      */
     public function update(UpdateDistrictRequest $request, District $district)
     {
-        return ['hello update'];
+
+        $request->validated();
+        $district->name = $request->get('name');
+        if ($district->save()) {
+            $responseData = new DistrictResource($district);
+            return $this->successResponse('Data updated correctly', $responseData);
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -93,6 +104,12 @@ class DistrictController extends Controller
      */
     public function destroy(District $district)
     {
-        return ['hello delete'];
+
+        if ($district->delete()) {
+            $responseData = new DistrictResource($district);
+            return $this->successResponse('Data deleted successfully');
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

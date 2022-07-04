@@ -53,6 +53,11 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+
+        if(config('app.debug') == true){
+            return parent::render($request, $exception);
+        }
+
         /**
          * ValidationException
          */
@@ -65,6 +70,13 @@ class Handler extends ExceptionHandler
          */
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             return $this->errorResponse('No Route Found', Response::HTTP_NOT_FOUND );
+        }
+        
+        /**
+         * MethodNotAllowedHttpException
+         */
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException) {
+            return $this->errorResponse('You do not have permissions to manage it.', Response::HTTP_METHOD_NOT_ALLOWED );
         }
         
         /**

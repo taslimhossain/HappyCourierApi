@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\AreaController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,15 +39,15 @@ Route::group(['prefix' => 'auth'], static function () {
     Route::post('reset', [AuthController::class, 'reset'])->name('auth.reset');
 });
 
-//Route::resource('district', DistrictController::class)->only(['create', 'store']);
-
-// Route::resource('district', DistrictController::class);
 
 Route::group(['prefix' => 'admin'], static function () {
-   // Route::get('district', [DistrictController::class])->only('show')->middleware(['auth:sanctum']);
-   Route::resource('district', DistrictController::class);
+   Route::resource('district', DistrictController::class)->middleware(['auth:sanctum']);
+   Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
+   Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
 });
-
+Route::resource('district', DistrictController::class)->only(['index', 'show']);
+Route::resource('zone', ZoneController::class)->only(['index', 'show']);
+Route::resource('area', AreaController::class)->only(['index', 'show']);
 
 
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);

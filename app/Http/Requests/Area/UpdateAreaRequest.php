@@ -13,7 +13,7 @@ class UpdateAreaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,21 @@ class UpdateAreaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'      => ['required', 'max:255','unique:areas'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => __('The :attribute field is required', ['attribute' => __('name')]),
+            'name.max' => __('The :attribute may not be greater than :max characters', ['attribute' => __('name'), 'max' => 255]),
+            'name.unique' => __('The :attribute has already been taken', ['attribute' => __('name')]),
         ];
     }
 }
