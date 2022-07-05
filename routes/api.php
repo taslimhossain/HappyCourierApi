@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\ProductTypeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,15 +40,16 @@ Route::group(['prefix' => 'auth'], static function () {
     Route::post('reset', [AuthController::class, 'reset'])->name('auth.reset');
 });
 
-
 Route::group(['prefix' => 'admin'], static function () {
    Route::resource('district', DistrictController::class)->middleware(['auth:sanctum']);
    Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
    Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
+   Route::resource('producttype', ProductTypeController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);
 Route::resource('area', AreaController::class)->only(['index', 'show']);
+Route::resource('producttype', ProductTypeController::class)->only(['index', 'show']);
 
 
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
