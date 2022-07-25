@@ -16,6 +16,12 @@ class RecoverRequest extends FormRequest
         return true;
     }
 
+    public function loginFieldType()
+    {
+        $login = $this->request->get('verifyLogin');
+        return filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile_no';
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,9 +29,16 @@ class RecoverRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'email' => ['required', 'email', 'exists:users,email'],
-        ];
+        
+        if( $this->loginFieldType() === 'email' ){
+            return [
+                'verifyLogin' => ['required', 'email', 'exists:users,email'],
+            ];
+        } else {
+            return [
+                'verifyLogin' => ['required', 'numeric', 'digits:11', 'exists:users,mobile_no'],
+            ];            
+        }
     }
 
     /**
@@ -36,9 +49,10 @@ class RecoverRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => __('The :attribute field is required', ['attribute' => __('email')]),
-            'email.email' => __('The :attribute must be a valid email address', ['attribute' => __('email')]),
-            'email.exists' => __('The email entered is not registered'),
+            'verifyLogin.required' => __('The :attribute field is required', ['attribute' => __('email')]),
+            'verifyLogin.email' => __('The :attribute must be a valid email address', ['attribute' => __('email')]),
+            'verifyLogin.digits' => __('The :attribute must be :max digits', ['attribute' => __('mobile number'), 'max' => 11]),
+            'verifyLogin.exists' => __('The email or phone entered is not registered'),
         ];
     } 
 }

@@ -79,18 +79,33 @@ class AuthController extends Controller
 
     public function recover(RecoverRequest $request)
     {
-        $request->validated();
 
-        $user = User::where('email', $request->get('email'))->first();
-        if (!$user) {
-            return $this->errorResponse('The email entered is not registered', Response::HTTP_NOT_ACCEPTABLE);
+        $request->validated();
+        $loginType = $request->loginFieldType();
+        if( $loginType === 'email' ){
+            $user = User::where('email', $request->get('verifyLogin'))->first();
+        } else {
+            $user = User::where('mobile_no', $request->get('verifyLogin'))->first();
         }
 
-        $token = Str::random(60);
-        DB::table('password_resets')->where('email', $request->get('email'))->delete();
-        DB::table('password_resets')->insert(['email' => $request->get('email'), 'token' => $token, 'created_at' => Carbon::now()]);
-        // send email or sms
-        return $this->successResponse('An email has been sent with a link to reset the password');
+        if (!$user) {
+            return $this->errorResponse('The email or mobile number entered is not registered', Response::HTTP_NOT_ACCEPTABLE);
+        }
+
+        $token = Str::random(4);
+        $utoken = Str::random(10);
+        $user_email = $user->email ? $user->email : $utoken.'@noemail.com';
+        $user_mobile_no = $user->email ? $user->mobile_no : '0000';
+
+        DB::table('password_resets')->where('mobile_no', $request->get('verifyLogin'))->orWhere('email', $request->get('verifyLogin'))->delete();
+        //DB::table('password_resets')->where('mobile_no', $request->get('verifyLogin'))->delete();
+        if( $loginType === 'email' ){
+            DB::table('password_resets')->insert(['email' => $request->get('verifyLogin'), 'mobile_no' => $user_mobile_no,  'token' => $token, 'created_at' => Carbon::now()]);
+        } else {
+            DB::table('password_resets')->insert(['email' => $user_email,'mobile_no' => $request->get('verifyLogin'), 'token' => $token, 'created_at' => Carbon::now()]);
+        }
+
+        return $this->successResponse('4 digit code has been send to reset the password');
     }
 
     public function reset(ResetRequest $request)
@@ -99,10 +114,9 @@ class AuthController extends Controller
 
         $tokenData = DB::table('password_resets')->where('token', $request->get('token'))->first();
         if ($tokenData) {
-
-            $user = User::where('email', $tokenData->email)->first();
+            $user = User::where('mobile_no', $tokenData->mobile_no)->orWhere('email', $tokenData->email)->first();
             if (!$user) {
-                return $this->errorResponse('The email entered is not registered', Response::HTTP_NOT_ACCEPTABLE);
+                return $this->errorResponse('The email or mobile number entered is not registered', Response::HTTP_NOT_ACCEPTABLE);
             }
             $user->password = bcrypt($request->get('password'));
             if (is_null($user->email_verified_at)) {
@@ -110,10 +124,10 @@ class AuthController extends Controller
             }
             $user->save();
 
-            DB::table('password_resets')->where('email', $user->email)->delete();
+            DB::table('password_resets')->where('mobile_no', $user->mobile_no)->orWhere('email', $user->email)->delete();
             $user = Auth::loginUsingId($user->id);
             $token = $user->createToken(Str::slug(config('app.name').'_auth_token', '_'))->plainTextToken;
-            return response()->json(['token' => $token, 'user' => new UserResource($user)]);
+            return response()->json(['token' => $token, 'message' => 'Password reset successfully', 'user' => new UserResource($user)]);
         }
 
         return $this->errorResponse('Sorry invalid Token!', Response::HTTP_NOT_ACCEPTABLE);

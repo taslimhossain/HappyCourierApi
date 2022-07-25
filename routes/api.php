@@ -37,8 +37,8 @@ Route::group(['prefix' => 'admin'], static function () {
     Route::post('register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware(['auth:sanctum']);
     Route::get('user', [AuthController::class, 'user'])->name('auth.user')->middleware(['auth:sanctum']);
-    Route::post('recover', [AuthController::class, 'recover'])->name('auth.recover');
-    Route::post('reset', [AuthController::class, 'reset'])->name('auth.reset');
+    Route::put('recover', [AuthController::class, 'recover'])->name('auth.recover');
+    Route::put('reset', [AuthController::class, 'reset'])->name('auth.reset');
 });
 
 Route::group(['prefix' => 'auth'], static function () {
@@ -46,8 +46,8 @@ Route::group(['prefix' => 'auth'], static function () {
     Route::post('register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware(['auth:sanctum']);
     Route::get('user', [AuthController::class, 'user'])->name('auth.user')->middleware(['auth:sanctum']);
-    Route::post('recover', [AuthController::class, 'recover'])->name('auth.recover');
-    Route::post('reset', [AuthController::class, 'reset'])->name('auth.reset');
+    Route::put('recover', [AuthController::class, 'recover'])->name('auth.recover');
+    Route::put('reset', [AuthController::class, 'reset'])->name('auth.reset');
 });
 
 Route::group(['prefix' => 'admin'], static function () {
