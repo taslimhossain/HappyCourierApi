@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\AreaController;
@@ -31,6 +32,15 @@ Route::post('/submit', function( Request $request ){
 
 Route::get('db', [AuthController::class, 'db'])->name('db');
 
+Route::group(['prefix' => 'admin'], static function () {
+    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware(['auth:sanctum']);
+    Route::get('user', [AuthController::class, 'user'])->name('auth.user')->middleware(['auth:sanctum']);
+    Route::post('recover', [AuthController::class, 'recover'])->name('auth.recover');
+    Route::post('reset', [AuthController::class, 'reset'])->name('auth.reset');
+});
+
 Route::group(['prefix' => 'auth'], static function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('register', [AuthController::class, 'register'])->name('auth.register');
@@ -41,6 +51,7 @@ Route::group(['prefix' => 'auth'], static function () {
 });
 
 Route::group(['prefix' => 'admin'], static function () {
+   Route::resource('dashboard ', DashboardController::class)->middleware(['auth:sanctum']);
    Route::resource('district', DistrictController::class)->middleware(['auth:sanctum']);
    Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
    Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
