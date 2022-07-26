@@ -64,3 +64,5 @@ Route::resource('producttype', ProductTypeController::class)->only(['index', 'sh
 
 
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
+
+require __DIR__.'/extra.php';
