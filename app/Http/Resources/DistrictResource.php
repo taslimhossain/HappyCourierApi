@@ -28,6 +28,7 @@ class DistrictResource extends JsonResource
         return [
             'id'         => $district->id,
             'name'       => $district->name,
+            'cost'       => $district->price,
             'status'     => (bool) $district->status,
             'created_at' => $district->created_at->toISOString(),
             'updated_at' => $district->updated_at->toISOString()
