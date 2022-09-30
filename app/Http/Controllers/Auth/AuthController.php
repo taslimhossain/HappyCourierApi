@@ -50,12 +50,25 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
 
+        $getPage =  $request->get('signuppage');
+        $userRole = 'merchant';
+        if($getPage == 'riderpage'){
+            $userRole = 'rider';
+        }
+        if($getPage == 'merchantpage'){
+            $userRole = 'merchant';
+        }
+        if($getPage == 'debdadminpage'){
+            $userRole = 'admin';
+        }
+
         $request->validated();
         $user            = new User();
         $user->name      = $request->get('name');
         $user->mobile_no = $request->get('mobile_no');
         $user->email     = $request->get('email');
         $user->password  = bcrypt($request->get('password'));
+        $user->user_role     = $userRole;
         $user->save();
 
         $token = $user->createToken(Str::slug(config('app.name').'_auth_token', '_'))->plainTextToken;

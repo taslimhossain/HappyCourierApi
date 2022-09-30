@@ -24,7 +24,7 @@ class UpdateDistrictRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'max:255','unique:districts'],
+            'name'      => ['required', 'max:255'],
         ];
     }
 

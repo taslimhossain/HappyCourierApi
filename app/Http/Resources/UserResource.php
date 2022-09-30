@@ -31,7 +31,7 @@ class UserResource extends JsonResource
             'name'       => $user->name,
             'mobile_no'  => $user->mobile_no,
             'email'      => $user->email,
-            'role_id'    => $user->role_id,
+            'user_role'    => $user->user_role,
             'status'     => (bool) $user->status,
             'created_at' => $user->created_at->toISOString(),
             'updated_at' => $user->updated_at->toISOString()
