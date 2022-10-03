@@ -63,7 +63,9 @@ class ZoneController extends Controller
     public function show(Zone $zone)
     {
         $responseData = new ZoneResource($zone);
-
+        
+        
+       // $responseData->district_name = $district->name;
         return $this->successResponse($responseData);
     }
 

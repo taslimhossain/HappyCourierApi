@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
-
+use App\Models\District;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ZoneResource extends JsonResource
@@ -24,13 +24,16 @@ class ZoneResource extends JsonResource
     public function toArray($request)
     {
         /** @var User $user */
-        $district = $this;
+        $item = $this;
+        $district = District::findOrFail($item->district_id);
         return [
-            'id'         => $district->id,
-            'name'       => $district->name,
-            'status'     => (bool) $district->status,
-            'created_at' => $district->created_at->toISOString(),
-            'updated_at' => $district->updated_at->toISOString()
+            'id'            => $item->id,
+            'name'          => $item->name,
+            'district_id'   => $item->district_id,
+            'district_name' => isset($district->name) ? $district->name : '',
+            'status'        => (bool) $item->status,
+            'created_at'    => $item->created_at->toISOString(),
+            'updated_at'    => $item->updated_at->toISOString()
         ];
     }
 }
