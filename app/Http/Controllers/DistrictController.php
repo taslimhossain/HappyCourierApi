@@ -20,7 +20,7 @@ class DistrictController extends Controller
     public function index()
     {
         $district = District::all();
-        $responseData = ['district' => DistrictResource::collection($district)];
+        $responseData = DistrictResource::collection($district);
         return $this->successResponse($responseData);
     }
 

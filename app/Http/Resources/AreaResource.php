@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Zone;
 
 class AreaResource extends JsonResource
 {
@@ -24,13 +25,16 @@ class AreaResource extends JsonResource
     public function toArray($request)
     {
         /** @var User $user */
-        $district = $this;
+        $item = $this;
+        $zone = Zone::findOrFail($item->zone_id);
         return [
-            'id'         => $district->id,
-            'name'       => $district->name,
-            'status'     => (bool) $district->status,
-            'created_at' => $district->created_at->toISOString(),
-            'updated_at' => $district->updated_at->toISOString()
+            'id'         => $item->id,
+            'name'       => $item->name,
+            'zone_id'    => $item->zone_id,
+            'zone_name'  => isset($zone->name) ? $zone->name : '',
+            'status'     => (bool) $item->status,
+            'created_at' => $item->created_at->toISOString(),
+            'updated_at' => $item->updated_at->toISOString()
         ];
     }
 }

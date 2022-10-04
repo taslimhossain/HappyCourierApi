@@ -20,7 +20,7 @@ class AreaController extends Controller
     public function index()
     {
         $area = Area::all();
-        $responseData = ['area' => AreaResource::collection($area)];
+        $responseData = AreaResource::collection($area);
         return $this->successResponse($responseData);
     }
 
@@ -46,10 +46,10 @@ class AreaController extends Controller
         $area = new Area();
         $area->name = $request->get('name');
         $area->zone_id = $request->get('zone_id');
+        $area->status = $request->get('status');
         if($area->save()){
             return $this->successResponse( 'Data saved correctly', new DistrictResource($area) );
         }
-
         return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -89,6 +89,7 @@ class AreaController extends Controller
         $request->validated();
         $area->name = $request->get('name');
         $area->zone_id = $request->get('zone_id');
+        $area->status = $request->get('status');
         if ($area->save()) {
             $responseData = new areaResource($area);
             return $this->successResponse('Data updated correctly', $responseData);

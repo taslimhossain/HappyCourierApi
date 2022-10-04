@@ -24,7 +24,7 @@ class UpdateAreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'max:255','unique:areas'],
+            'name'      => ['required', 'max:255'],
         ];
     }
 

@@ -20,8 +20,7 @@ class ZoneController extends Controller
     public function index()
     {
         $zone = Zone::all();
-        $responseData = ['zone' => ZoneResource::collection($zone)];
-
+        $responseData = ZoneResource::collection($zone);
         return $this->successResponse($responseData);
     }
 
@@ -47,6 +46,7 @@ class ZoneController extends Controller
         $district = new Zone();
         $district->name = $request->get('name');
         $district->district_id = $request->get('district_id');
+        $district->status = $request->get('status');
         if($district->save()){
             return $this->successResponse( 'Data saved correctly', new ZoneResource($district) );
         }
@@ -94,6 +94,7 @@ class ZoneController extends Controller
         $request->validated();
         $zone->name = $request->get('name');
         $zone->district_id = $request->get('district_id');
+        $zone->status = $request->get('status');
         if ($zone->save()) {
             $responseData = new ZoneResource($zone);
             return $this->successResponse('Data updated correctly', $responseData);

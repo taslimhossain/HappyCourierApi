@@ -9,6 +9,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\SelectOption;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -71,7 +72,7 @@ Route::resource('zone', ZoneController::class)->only(['index', 'show']);
 Route::resource('area', AreaController::class)->only(['index', 'show']);
 Route::resource('producttype', ProductTypeController::class)->only(['index', 'show']);
 
-
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
+Route::get('selectoption', SelectOption::class)->name('selectoption');
 
 require __DIR__.'/extra.php';
