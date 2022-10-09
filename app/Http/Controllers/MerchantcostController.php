@@ -89,7 +89,6 @@ class MerchantcostController extends Controller
     public function update(UpdateMerchantcostRequest $request, Merchantcost $merchantcost)
     {
         $request->validated();
-        $merchantcost = new Merchantcost();
         $merchantcost->name            = $request->get('name');
         $merchantcost->pickup_amount   = $request->get('pickup_amount');
         $merchantcost->delivery_amount = $request->get('delivery_amount');

@@ -3,7 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-//use App\Models\Zone;
+use App\Models\District;
+use App\Models\Zone;
+use App\Models\Area;
 
 class PickuplocationResource extends JsonResource
 {
@@ -26,15 +28,24 @@ class PickuplocationResource extends JsonResource
     {
         /** @var User $user */
         $item = $this;
-        //$zone = Zone::findOrFail($item->zone_id);
+        $distric = District::findOrFail($item->district_id);
+        $zone = Zone::findOrFail($item->zone_id);
+        $area = Area::findOrFail($item->area_id);
         return [
-            'id'         => $item->id,
-            'name'       => $item->name,
-            'zone_id'    => $item->zone_id,
-            //'zone_name'  => isset($zone->name) ? $zone->name : '',
-            'status'     => (bool) $item->status,
-            'created_at' => $item->created_at->toISOString(),
-            'updated_at' => $item->updated_at->toISOString()
+            'id'          => $item->id,
+            'name'        => $item->name,
+            'address'     => $item->address,
+            'phone'       => $item->phone,
+            'email'       => $item->email,
+            'district_id' => $item->district_id,
+            'district_name'   => isset($distric->name) ? $distric->name : '',
+            'zone_id'     => $item->zone_id,
+            'zone_name'   => isset($zone->name) ? $zone->name : '',
+            'area_id'     => $item->area_id,
+            'area_name'   => isset($area->name) ? $area->name : '',
+            'status'      => (bool) $item->status,
+            'created_at'  => $item->created_at->toISOString(),
+            'updated_at'  => $item->updated_at->toISOString()
         ];
     }
 }

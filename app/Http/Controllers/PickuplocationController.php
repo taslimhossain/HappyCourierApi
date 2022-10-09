@@ -7,7 +7,7 @@ use App\Http\Resources\PickuplocationResource;
 use App\Http\Traits\Helpers\ApiResponseTrait;
 use App\Http\Requests\Pickuplocation\StorePickuplocationRequest;
 use App\Http\Requests\Pickuplocation\UpdatePickuplocationRequest;
-
+use Auth;
 
 class PickuplocationController extends Controller
 {
@@ -43,6 +43,7 @@ class PickuplocationController extends Controller
     public function store(StorePickuplocationRequest $request)
     {
         $request->validated();
+        $user = Auth::user();
         $item = new Pickuplocation();
         $item->name        = $request->get('name');
         $item->address     = $request->get('address');
@@ -51,7 +52,7 @@ class PickuplocationController extends Controller
         $item->district_id = $request->get('district_id');
         $item->zone_id     = $request->get('zone_id');
         $item->area_id     = $request->get('area_id');
-        $item->user_id     = $request->get('user_id');
+        $item->user_id     = $user->id;
         $item->status      = $request->get('status');
         if($item->save()){
             return $this->successResponse( 'Data saved correctly', new PickuplocationResource($item) );
@@ -93,6 +94,7 @@ class PickuplocationController extends Controller
     public function update(UpdatePickuplocationRequest $request, Pickuplocation $pickuplocation)
     {
         $request->validated();
+        $user = Auth::user();
         $pickuplocation->name        = $request->get('name');
         $pickuplocation->address     = $request->get('address');
         $pickuplocation->phone       = $request->get('phone');
@@ -100,7 +102,7 @@ class PickuplocationController extends Controller
         $pickuplocation->district_id = $request->get('district_id');
         $pickuplocation->zone_id     = $request->get('zone_id');
         $pickuplocation->area_id     = $request->get('area_id');
-        $pickuplocation->user_id     = $request->get('user_id');
+        $pickuplocation->user_id     = $user->id;
         $pickuplocation->status      = $request->get('status');
         if($pickuplocation->save()){
             return $this->successResponse( 'Data saved correctly', new PickuplocationResource($pickuplocation) );
