@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Servicetype;
+use App\Http\Resources\ServiceTypeResource;
 use App\Http\Requests\Servicetype\StoreServicetypeRequest;
 use App\Http\Requests\Servicetype\UpdateServicetypeRequest;
-use App\Http\Resources\ServiceTypeResource;
 use App\Http\Traits\Helpers\ApiResponseTrait;
 
 class ServicetypeController extends Controller

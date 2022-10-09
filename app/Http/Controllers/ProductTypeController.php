@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductType;
+use App\Models\Producttype;
 use App\Http\Resources\ProductTypeResource;
 use App\Http\Requests\ProductType\StoreProductTypeRequest;
 use App\Http\Requests\ProductType\UpdateProductTypeRequest;
@@ -19,7 +19,7 @@ class ProductTypeController extends Controller
      */
     public function index()
     {
-        $items = ProductType::all();
+        $items = Producttype::all();
         $responseData = ProductTypeResource::collection($items);
         return $this->successResponse($responseData);
     }
@@ -43,7 +43,7 @@ class ProductTypeController extends Controller
     public function store(StoreProductTypeRequest $request)
     {
         $request->validated();
-        $item = new ProductType();
+        $item = new Producttype();
         $item->name = $request->get('name');
         $item->amount = $request->get('amount');
         $item->status = $request->get('status');
@@ -59,10 +59,9 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductType $productType)
+    public function show(Producttype $producttype)
     {
-        dd($productType);
-        $responseData = new ProductTypeResource($productType);
+        $responseData = new ProductTypeResource($producttype);
         return $this->successResponse($responseData);
     }
 
@@ -72,9 +71,9 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductType $productType)
+    public function edit(Producttype $producttype)
     {
-        $responseData = new ProductTypeResource($productType);
+        $responseData = new ProductTypeResource($producttype);
         return $this->successResponse($responseData);
     }
 
@@ -85,9 +84,16 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductTypeRequest $request, ProductType $productType)
+    public function update(UpdateProductTypeRequest $request, Producttype $producttype)
     {
-        //
+        $request->validated();
+        $producttype->name = $request->get('name');
+        $producttype->amount = $request->get('amount');
+        $producttype->status = $request->get('status');
+        if($producttype->save()){
+            return $this->successResponse( 'Data saved correctly', new ProductTypeResource($producttype) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -96,10 +102,10 @@ class ProductTypeController extends Controller
      * @param  \App\Models\ProductType  $productType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductType $productType)
+    public function destroy(Producttype $producttype)
     {
-        if ($productType->delete()) {
-            $responseData = new ProductTypeResource($productType);
+        if ($producttype->delete()) {
+            $responseData = new ProductTypeResource($producttype);
             return $this->successResponse('Data deleted successfully');
         }
 

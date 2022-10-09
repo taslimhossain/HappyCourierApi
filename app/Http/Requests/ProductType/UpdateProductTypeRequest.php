@@ -24,7 +24,24 @@ class UpdateProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'      => ['required', 'max:255'],
+            'amount'      => ['required','numeric'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'name.required' => __('The :attribute field is required', ['attribute' => __('name')]),
+            'amount.required' => __('The :attribute field is required', ['attribute' => __('amount')]),
+            'name.max' => __('The :attribute may not be greater than :max characters', ['attribute' => __('name'), 'max' => 255]),
+            'amount.numeric' => __('Please enter a valid amount, only number'),
+        ];
+    }
+
 }
