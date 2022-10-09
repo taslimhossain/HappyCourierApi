@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('hubandzones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('zone_id')->nullable(false)->index();
-            $table->unsignedBigInteger('hub_id')->nullable(false)->index();
+            $table->unsignedBigInteger('zone_id')->nullable(false);
+            $table->foreign('zone_id')->references('id')->on('zones');
+            $table->unsignedBigInteger('hub_id')->nullable(false);
             $table->foreign('hub_id')->references('id')->on('hubs')->onDelete('cascade');
             $table->timestamps();
         });

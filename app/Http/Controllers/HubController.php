@@ -49,8 +49,6 @@ class HubController extends Controller
             return $this->successResponse( 'Data saved correctly', new HubResource($area) );
         }
         return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
-
-
     }
 
     /**
