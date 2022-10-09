@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Merchantcost;
-use App\Http\Requests\StoreMerchantcostRequest;
-use App\Http\Requests\UpdateMerchantcostRequest;
+use App\Http\Resources\MerchantcostResource;
+use App\Http\Traits\Helpers\ApiResponseTrait;
+use App\Http\Requests\Merchantcost\StoreMerchantcostRequest;
+use App\Http\Requests\Merchantcost\UpdateMerchantcostRequest;
 
 class MerchantcostController extends Controller
 {
+
+    use ApiResponseTrait;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,9 @@ class MerchantcostController extends Controller
      */
     public function index()
     {
-        //
+        $items = Merchantcost::all();
+        $responseData = MerchantcostResource::collection($items);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -36,7 +42,17 @@ class MerchantcostController extends Controller
      */
     public function store(StoreMerchantcostRequest $request)
     {
-        //
+        $request->validated();
+        $item = new Merchantcost();
+        $item->name            = $request->get('name');
+        $item->pickup_amount   = $request->get('pickup_amount');
+        $item->delivery_amount = $request->get('delivery_amount');
+        $item->discount_amount  = $request->get('discount_amount');
+        $item->status          = $request->get('status');
+        if($item->save()){
+            return $this->successResponse( 'Data saved correctly', new MerchantcostResource($item) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -47,7 +63,8 @@ class MerchantcostController extends Controller
      */
     public function show(Merchantcost $merchantcost)
     {
-        //
+        $responseData = new MerchantcostResource($merchantcost);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -58,7 +75,8 @@ class MerchantcostController extends Controller
      */
     public function edit(Merchantcost $merchantcost)
     {
-        //
+        $responseData = new MerchantcostResource($merchantcost);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -70,7 +88,17 @@ class MerchantcostController extends Controller
      */
     public function update(UpdateMerchantcostRequest $request, Merchantcost $merchantcost)
     {
-        //
+        $request->validated();
+        $merchantcost = new Merchantcost();
+        $merchantcost->name            = $request->get('name');
+        $merchantcost->pickup_amount   = $request->get('pickup_amount');
+        $merchantcost->delivery_amount = $request->get('delivery_amount');
+        $merchantcost->discount_amount  = $request->get('discount_amount');
+        $merchantcost->status          = $request->get('status');
+        if($merchantcost->save()){
+            return $this->successResponse( 'Data saved correctly', new MerchantcostResource($merchantcost) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -81,6 +109,10 @@ class MerchantcostController extends Controller
      */
     public function destroy(Merchantcost $merchantcost)
     {
-        //
+        if ($merchantcost->delete()) {
+            return $this->successResponse('Data deleted successfully');
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Ridercost;
+namespace App\Http\Requests\Merchantcost;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRidercostRequest extends FormRequest
+class StoreMerchantcostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class StoreRidercostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => ['required', 'max:255','unique:ridercosts'],
+            'name'      => ['required', 'max:255','unique:merchantcosts'],
         ];
     }
-    
+
     /**
      * Get custom messages for validator errors.
      *
