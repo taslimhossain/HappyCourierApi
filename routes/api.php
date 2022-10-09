@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DistrictController;
@@ -10,6 +10,7 @@ use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SelectOption;
+use App\Http\Controllers\File\FileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,6 +33,10 @@ Route::post('/submit', function( Request $request ){
 });
 
 Route::get('db', [AuthController::class, 'db'])->name('db');
+
+Route::resource('attachments', FileController::class);
+Route::get('files/download/{uuid}', [FileController::class, 'download'])->name('files.download');
+//Route::post('file', [FileController::class, 'uploadAttachment'])->middleware(['auth:sanctum']);
 
 Route::group(['prefix' => 'admin'], static function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
