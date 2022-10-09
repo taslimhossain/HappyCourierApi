@@ -19,6 +19,8 @@ return new class extends Migration
             $table->float('pickup_amount', 10, 0)->unsigned()->nullable()->default(0);
             $table->float('delivery_amount', 10, 0)->unsigned()->nullable()->default(0);
             $table->float('sallery_amount', 10, 0)->unsigned()->nullable()->default(0);
+            $table->enum('ridertype', array('freelance','job'))->default('freelance');
+            $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();
         });
     }

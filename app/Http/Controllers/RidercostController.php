@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ridercost;
-use App\Http\Requests\StoreRidercostRequest;
-use App\Http\Requests\UpdateRidercostRequest;
+use App\Http\Resources\RidercostResource;
+use App\Http\Traits\Helpers\ApiResponseTrait;
+use App\Http\Requests\Ridercost\StoreRidercostRequest;
+use App\Http\Requests\Ridercost\UpdateRidercostRequest;
 
 class RidercostController extends Controller
 {
+    use ApiResponseTrait;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +18,9 @@ class RidercostController extends Controller
      */
     public function index()
     {
-        //
+        $items = Ridercost::all();
+        $responseData = RidercostResource::collection($items);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -36,7 +41,18 @@ class RidercostController extends Controller
      */
     public function store(StoreRidercostRequest $request)
     {
-        //
+        $request->validated();
+        $item = new Ridercost();
+        $item->name            = $request->get('name');
+        $item->pickup_amount   = $request->get('pickup_amount');
+        $item->delivery_amount = $request->get('delivery_amount');
+        $item->sallery_amount  = $request->get('sallery_amount');
+        $item->ridertype       = $request->get('ridertype');
+        $item->status          = $request->get('status');
+        if($item->save()){
+            return $this->successResponse( 'Data saved correctly', new RidercostResource($item) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -47,7 +63,8 @@ class RidercostController extends Controller
      */
     public function show(Ridercost $ridercost)
     {
-        //
+        $responseData = new RidercostResource($ridercost);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -58,7 +75,8 @@ class RidercostController extends Controller
      */
     public function edit(Ridercost $ridercost)
     {
-        //
+        $responseData = new RidercostResource($ridercost);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -70,7 +88,17 @@ class RidercostController extends Controller
      */
     public function update(UpdateRidercostRequest $request, Ridercost $ridercost)
     {
-        //
+        $request->validated();
+        $ridercost->name            = $request->get('name');
+        $ridercost->pickup_amount   = $request->get('pickup_amount');
+        $ridercost->delivery_amount = $request->get('delivery_amount');
+        $ridercost->sallery_amount  = $request->get('sallery_amount');
+        $ridercost->ridertype       = $request->get('ridertype');
+        $ridercost->status          = $request->get('status');
+        if($ridercost->save()){
+            return $this->successResponse( 'Data saved correctly', new RidercostResource($ridercost) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -81,6 +109,10 @@ class RidercostController extends Controller
      */
     public function destroy(Ridercost $ridercost)
     {
-        //
+        if ($ridercost->delete()) {
+            return $this->successResponse('Data deleted successfully');
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

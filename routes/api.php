@@ -16,6 +16,7 @@ use App\Http\Controllers\HubandzonesController;
 use App\Http\Controllers\ServicetypeController;
 use App\Http\Controllers\WeightController;
 use App\Http\Controllers\PickuplocationController;
+use App\Http\Controllers\RidercostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,7 @@ Route::group(['prefix' => 'admin'], static function () {
    Route::resource('servicetype', ServicetypeController::class)->middleware(['auth:sanctum']);
    Route::resource('weight', WeightController::class)->middleware(['auth:sanctum']);
    Route::resource('pickuplocation', PickuplocationController::class)->middleware(['auth:sanctum']);
+   Route::resource('ridercost', RidercostController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);
