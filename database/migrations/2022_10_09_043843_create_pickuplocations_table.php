@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreign('zone_id')->references('id')->on('zones');
             $table->unsignedBigInteger('area_id')->nullable(false)->index();
             $table->foreign('area_id')->references('id')->on('areas');
+            $table->unsignedBigInteger('user_id')->nullable(false)->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();
         });

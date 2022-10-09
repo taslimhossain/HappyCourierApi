@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductType;
+use App\Http\Resources\ProductTypeResource;
 use App\Http\Requests\ProductType\StoreProductTypeRequest;
 use App\Http\Requests\ProductType\UpdateProductTypeRequest;
 use App\Http\Traits\Helpers\ApiResponseTrait;
-use App\Http\Resources\ProductTypeResource;
+
 
 class ProductTypeController extends Controller
 {
@@ -60,6 +61,7 @@ class ProductTypeController extends Controller
      */
     public function show(ProductType $productType)
     {
+        dd($productType);
         $responseData = new ProductTypeResource($productType);
         return $this->successResponse($responseData);
     }

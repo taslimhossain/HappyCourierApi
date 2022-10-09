@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('weights', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->integer('from')->unsigned()->nullable();
-            $table->integer('to')->unsigned()->nullable();
+            $table->integer('from')->unsigned()->nullable()->default(0);
+            $table->integer('to')->unsigned()->nullable()->default(0);
             $table->float('amount', 10, 0)->unsigned()->nullable()->default(0);
             $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();

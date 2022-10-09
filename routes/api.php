@@ -14,6 +14,8 @@ use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\HubandzonesController;
 use App\Http\Controllers\ServicetypeController;
+use App\Http\Controllers\WeightController;
+use App\Http\Controllers\PickuplocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,11 +80,13 @@ Route::group(['prefix' => 'admin'], static function () {
    Route::resource('hub', HubController::class)->middleware(['auth:sanctum']);
    Route::resource('hubandzone', HubandzonesController::class)->middleware(['auth:sanctum']);
    Route::resource('servicetype', ServicetypeController::class)->middleware(['auth:sanctum']);
+   Route::resource('weight', WeightController::class)->middleware(['auth:sanctum']);
+   Route::resource('pickuplocation', PickuplocationController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);
 Route::resource('area', AreaController::class)->only(['index', 'show']);
-Route::resource('producttype', ProductTypeController::class)->only(['index', 'show']);
+//Route::resource('producttype', ProductTypeController::class)->only(['index', 'show']);
 
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
 Route::get('selectoption', SelectOption::class)->name('selectoption');
