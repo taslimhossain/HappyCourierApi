@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductType;
-use App\Http\Requests\StoreProductTypeRequest;
-use App\Http\Requests\UpdateProductTypeRequest;
+use App\Http\Requests\ProductType\StoreProductTypeRequest;
+use App\Http\Requests\ProductType\UpdateProductTypeRequest;
 use App\Http\Traits\Helpers\ApiResponseTrait;
 use App\Http\Resources\ProductTypeResource;
 
@@ -18,8 +18,8 @@ class ProductTypeController extends Controller
      */
     public function index()
     {
-        $district = ProductType::all();
-        $responseData = ['producttype' => ProductTypeResource::collection($district)];
+        $items = ProductType::all();
+        $responseData = ProductTypeResource::collection($items);
         return $this->successResponse($responseData);
     }
 
@@ -41,7 +41,15 @@ class ProductTypeController extends Controller
      */
     public function store(StoreProductTypeRequest $request)
     {
-        //
+        $request->validated();
+        $item = new ProductType();
+        $item->name = $request->get('name');
+        $item->amount = $request->get('amount');
+        $item->status = $request->get('status');
+        if($item->save()){
+            return $this->successResponse( 'Data saved correctly', new ProductTypeResource($item) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -52,7 +60,8 @@ class ProductTypeController extends Controller
      */
     public function show(ProductType $productType)
     {
-        //
+        $responseData = new ProductTypeResource($productType);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -63,7 +72,8 @@ class ProductTypeController extends Controller
      */
     public function edit(ProductType $productType)
     {
-        //
+        $responseData = new ProductTypeResource($productType);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -86,6 +96,11 @@ class ProductTypeController extends Controller
      */
     public function destroy(ProductType $productType)
     {
-        //
+        if ($productType->delete()) {
+            $responseData = new ProductTypeResource($productType);
+            return $this->successResponse('Data deleted successfully');
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

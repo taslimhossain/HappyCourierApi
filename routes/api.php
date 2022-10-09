@@ -13,6 +13,8 @@ use App\Http\Controllers\SelectOption;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\HubController;
 use App\Http\Controllers\HubandzonesController;
+use App\Http\Controllers\ServicetypeController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -75,6 +77,7 @@ Route::group(['prefix' => 'admin'], static function () {
    Route::resource('producttype', ProductTypeController::class)->middleware(['auth:sanctum']);
    Route::resource('hub', HubController::class)->middleware(['auth:sanctum']);
    Route::resource('hubandzone', HubandzonesController::class)->middleware(['auth:sanctum']);
+   Route::resource('servicetype', ServicetypeController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);

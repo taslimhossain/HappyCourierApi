@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductTypeResource extends JsonResource
+class ServiceTypeResource extends JsonResource
 {
 
     
@@ -13,7 +13,7 @@ class ProductTypeResource extends JsonResource
      *
      * @var string
      */
-    public static $wrap = 'producttype';
+    public static $wrap = 'servicetypes';
 
     /**
      * Transform the resource into an array.
@@ -24,14 +24,15 @@ class ProductTypeResource extends JsonResource
     public function toArray($request)
     {
         /** @var User $user */
-        $district = $this;
+        $item = $this;
+
         return [
-            'id'         => $district->id,
-            'name'       => $district->name,
-            'amount'     => $district->amount,
-            'status'     => (bool) $district->status,
-            // 'created_at' => $district->created_at->toISOString(),
-            // 'updated_at' => $district->updated_at->toISOString()
+            'id'         => $item->id,
+            'name'       => $item->name,
+            'amount'       => $item->amount,
+            'status'     => (bool) $item->status,
+            'created_at' => $item->created_at->toISOString(),
+            'updated_at' => $item->updated_at->toISOString()
         ];
     }
 }
