@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hub;
-use App\Http\Requests\StoreHubRequest;
-use App\Http\Requests\UpdateHubRequest;
+use App\Http\Requests\Hub\StoreHubRequest;
+use App\Http\Requests\Hub\UpdateHubRequest;
 use App\Http\Traits\Helpers\ApiResponseTrait;
+use App\Http\Resources\HubResource;
 
 class HubController extends Controller
 {
@@ -17,7 +18,9 @@ class HubController extends Controller
      */
     public function index()
     {
-        return $this->successResponse('index');
+        $items = Hub::all();
+        $responseData = HubResource::collection($items);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -38,7 +41,16 @@ class HubController extends Controller
      */
     public function store(StoreHubRequest $request)
     {
-        return $this->successResponse('store');
+        $request->validated();
+        $area = new Hub();
+        $area->name = $request->get('name');
+        $area->status = $request->get('status');
+        if($area->save()){
+            return $this->successResponse( 'Data saved correctly', new HubResource($area) );
+        }
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
+
+
     }
 
     /**
@@ -49,7 +61,8 @@ class HubController extends Controller
      */
     public function show(Hub $hub)
     {
-        return $this->successResponse('show');
+        $responseData = new HubResource($hub);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -60,7 +73,8 @@ class HubController extends Controller
      */
     public function edit(Hub $hub)
     {
-        return $this->successResponse('edit');
+        $responseData = new HubResource($hub);
+        return $this->successResponse($responseData);
     }
 
     /**
@@ -72,7 +86,15 @@ class HubController extends Controller
      */
     public function update(UpdateHubRequest $request, Hub $hub)
     {
-        return $this->successResponse('update');
+        $request->validated();
+        $hub->name = $request->get('name');
+        $hub->status = $request->get('status');
+        if ($hub->save()) {
+            $responseData = new HubResource($hub);
+            return $this->successResponse('Data updated correctly', $responseData);
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -83,6 +105,11 @@ class HubController extends Controller
      */
     public function destroy(Hub $hub)
     {
-        return $this->successResponse('destroy');
+        if ($hub->delete()) {
+            $responseData = new HubResource($hub);
+            return $this->successResponse('Data deleted successfully');
+        }
+
+        return $this->errorResponse('An error occurred while saving data', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
