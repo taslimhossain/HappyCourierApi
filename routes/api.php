@@ -11,6 +11,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\SelectOption;
 use App\Http\Controllers\File\FileController;
+use App\Http\Controllers\HubController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -71,6 +72,7 @@ Route::group(['prefix' => 'admin'], static function () {
    Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
    Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
    Route::resource('producttype', ProductTypeController::class)->middleware(['auth:sanctum']);
+   Route::resource('hub', HubController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);
