@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('producttypes', function (Blueprint $table) {
+        Schema::create('orderstatuss', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable(false);
-            $table->float('cost', 10, 0)->unsigned()->nullable();
-            $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('producttypes');
+        Schema::dropIfExists('orderstatuss');
     }
 };

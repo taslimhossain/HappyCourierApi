@@ -6,6 +6,7 @@ use App\Http\Controllers\ExtraController;
 Route::get('category', [ExtraController::class, 'category']);
 Route::get('products', [ExtraController::class, 'products']);
 Route::get('orders', [ExtraController::class, 'orders']);
+Route::get('orders/{id}', [ExtraController::class, 'orders']);
 Route::get('coupon', [ExtraController::class, 'coupon']);
 
 Route::group(['prefix' => 'admin/rider'], static function () {
