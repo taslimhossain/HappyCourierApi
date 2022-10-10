@@ -7,6 +7,7 @@ use App\Http\Traits\Helpers\ApiResponseTrait;
 use App\Models\District;
 use App\Models\Zone;
 use App\Models\Area;
+use App\Models\Hub;
 
 class SelectOption extends Controller
 {
@@ -47,6 +48,10 @@ class SelectOption extends Controller
         // area zone
         $Area = Area::where('status', '1')->get();
         $responseData['area'] = $this->selectFormat($Area);
+        
+        // area zone
+        $Hub = Hub::where('status', '1')->get();
+        $responseData['hub'] = $this->selectFormat($Hub);
 
         return $this->successResponse($responseData);
     }
