@@ -26,12 +26,14 @@ class DistrictResource extends JsonResource
         /** @var User $user */
         $district = $this;
         return [
-            'id'         => $district->id,
-            'name'       => $district->name,
-            'cost'       => $district->price,
-            'status'     => (bool) $district->status,
-            'created_at' => $district->created_at->toISOString(),
-            'updated_at' => $district->updated_at->toISOString()
+            'id'           => $district->id,
+            'name'         => $district->name,
+            'insidecity'   => $district->insidecity,
+            'samedistrict' => $district->samedistrict,
+            'outside'      => $district->outside,
+            'status'       => (bool) $district->status,
+            'created_at'   => $district->created_at->toISOString(),
+            'updated_at'   => $district->updated_at->toISOString()
         ];
     }
 }

@@ -45,7 +45,8 @@ class WeightController extends Controller
         $item = new Weight();
         $item->from = $request->get('from');
         $item->to = $request->get('to');
-        $item->amount = $request->get('amount');
+        $item->inside_amount = $request->get('inside_amount');
+        $item->outside_amount = $request->get('outside_amount');
         $item->status = $request->get('status');
         if($item->save()){
             return $this->successResponse( 'Data saved correctly', new WeightResource($item) );
@@ -89,7 +90,8 @@ class WeightController extends Controller
         $request->validated();
         $weight->from = $request->get('from');
         $weight->to = $request->get('to');
-        $weight->amount = $request->get('amount');
+        $weight->inside_amount = $request->get('inside_amount');
+        $weight->outside_amount = $request->get('outside_amount');
         $weight->status = $request->get('status');
         if ($weight->save()) {
             $responseData = new WeightResource($weight);

@@ -45,7 +45,9 @@ class DistrictController extends Controller
         $request->validated();
         $district = new District();
         $district->name = $request->get('name');
-        $district->price = $request->get('price');
+        $district->insidecity = $request->get('insidecity');
+        $district->samedistrict = $request->get('samedistrict');
+        $district->outside = $request->get('outside');
         $district->status = $request->get('status');
         if($district->save()){
             return $this->successResponse( 'Data saved correctly', new DistrictResource($district) );
@@ -90,7 +92,9 @@ class DistrictController extends Controller
 
         $request->validated();
         $district->name = $request->get('name');
-        $district->price = $request->get('price');
+        $district->insidecity = $request->get('insidecity');
+        $district->samedistrict = $request->get('samedistrict');
+        $district->outside = $request->get('outside');
         $district->status = $request->get('status');
         if ($district->save()) {
             $responseData = new DistrictResource($district);

@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->float('price',10,0)->default(0);
+            $table->float('insidecity',10,0)->default(0);
+            $table->float('samedistrict',10,0)->default(0);
+            $table->float('outside',10,0)->default(0);
             $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();
         });

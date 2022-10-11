@@ -21,7 +21,9 @@ class ZoneController extends Controller
     {
         $zone = Zone::all();
         $responseData = ZoneResource::collection($zone);
-        return $this->successResponse($responseData);
+        if($responseData){
+            return $this->successResponse($responseData);
+        }
     }
 
     /**
@@ -46,6 +48,9 @@ class ZoneController extends Controller
         $district = new Zone();
         $district->name = $request->get('name');
         $district->district_id = $request->get('district_id');
+        $district->is_insidecity = $request->get('is_insidecity');
+        $district->pickup_accept = $request->get('pickup_accept');
+        $district->delivery_accept = $request->get('delivery_accept');
         $district->status = $request->get('status');
         if($district->save()){
             return $this->successResponse( 'Data saved correctly', new ZoneResource($district) );
@@ -94,6 +99,9 @@ class ZoneController extends Controller
         $request->validated();
         $zone->name = $request->get('name');
         $zone->district_id = $request->get('district_id');
+        $zone->is_insidecity = $request->get('is_insidecity');
+        $zone->pickup_accept = $request->get('pickup_accept');
+        $zone->delivery_accept = $request->get('delivery_accept');
         $zone->status = $request->get('status');
         if ($zone->save()) {
             $responseData = new ZoneResource($zone);
