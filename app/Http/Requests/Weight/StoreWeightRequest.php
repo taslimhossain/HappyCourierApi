@@ -27,6 +27,7 @@ class StoreWeightRequest extends FormRequest
             'from'   => ['required'],
             'to'     => ['required'],
             'inside_amount' => ['required'],
+            'inside_district' => ['required'],
             'outside_amount' => ['required'],
         ];
     }
@@ -43,6 +44,7 @@ class StoreWeightRequest extends FormRequest
             'to.required' => __('The :attribute field is required', ['attribute' => __('to')]),
             'inside_amount.required' => __('The :attribute field is required', ['attribute' => __('Inside amount')]),
             'outside_amount.required' => __('The :attribute field is required', ['attribute' => __('Outside amount')]),
+            'inside_district.required' => __('The :attribute field is required', ['attribute' => __('amount')]),
         ];
     }
 

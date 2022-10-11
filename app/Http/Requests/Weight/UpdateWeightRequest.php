@@ -28,6 +28,7 @@ class UpdateWeightRequest extends FormRequest
             'to'     => ['required'],
             'inside_amount' => ['required'],
             'outside_amount' => ['required'],
+            'inside_district' => ['required'],
         ];
     }
 
@@ -43,6 +44,7 @@ class UpdateWeightRequest extends FormRequest
             'to.required' => __('The :attribute field is required', ['attribute' => __('to')]),
             'inside_amount.required' => __('The :attribute field is required', ['attribute' => __('Inside amount')]),
             'outside_amount.required' => __('The :attribute field is required', ['attribute' => __('Outside amount')]),
+            'inside_district.required' => __('The :attribute field is required', ['attribute' => __('amount')]),
         ];
     }
 

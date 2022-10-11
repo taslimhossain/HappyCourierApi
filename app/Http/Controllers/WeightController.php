@@ -46,6 +46,7 @@ class WeightController extends Controller
         $item->from = $request->get('from');
         $item->to = $request->get('to');
         $item->inside_amount = $request->get('inside_amount');
+        $item->inside_district = $request->get('inside_district');
         $item->outside_amount = $request->get('outside_amount');
         $item->status = $request->get('status');
         if($item->save()){
@@ -91,6 +92,7 @@ class WeightController extends Controller
         $weight->from = $request->get('from');
         $weight->to = $request->get('to');
         $weight->inside_amount = $request->get('inside_amount');
+        $weight->inside_district = $request->get('inside_district');
         $weight->outside_amount = $request->get('outside_amount');
         $weight->status = $request->get('status');
         if ($weight->save()) {
