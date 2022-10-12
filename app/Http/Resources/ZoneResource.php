@@ -32,8 +32,6 @@ class ZoneResource extends JsonResource
             'district_id'     => $item->district_id,
             'district_name'   => isset($district->name) ? $district->name : '',
             'is_insidecity'   => $item->is_insidecity,
-            'pickup_accept'   => $item->pickup_accept,
-            'delivery_accept' => $item->delivery_accept,
             'status'          => (bool) $item->status,
             'created_at'      => $item->created_at->toISOString(),
             'updated_at'      => $item->updated_at->toISOString()

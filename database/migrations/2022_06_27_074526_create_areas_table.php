@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name')->nullable(false);
             $table->unsignedBigInteger('zone_id')->nullable(false)->index();
             $table->foreign('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->enum('pickup_accept', array('0','1'))->default('1');
+            $table->enum('delivery_accept', array('0','1'))->default('1');
             $table->enum('status', array('0','1'))->default(1);
             $table->timestamps();
         });

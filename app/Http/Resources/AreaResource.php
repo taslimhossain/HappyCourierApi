@@ -32,6 +32,8 @@ class AreaResource extends JsonResource
             'name'       => $item->name,
             'zone_id'    => $item->zone_id,
             'zone_name'  => isset($zone->name) ? $zone->name : '',
+            'pickup_accept'   => $item->pickup_accept,
+            'delivery_accept' => $item->delivery_accept,
             'status'     => (bool) $item->status,
             'created_at' => $item->created_at->toISOString(),
             'updated_at' => $item->updated_at->toISOString()

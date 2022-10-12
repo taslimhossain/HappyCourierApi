@@ -46,6 +46,8 @@ class AreaController extends Controller
         $area = new Area();
         $area->name = $request->get('name');
         $area->zone_id = $request->get('zone_id');
+        $area->pickup_accept = $request->get('pickup_accept');
+        $area->delivery_accept = $request->get('delivery_accept');
         $area->status = $request->get('status');
         if($area->save()){
             return $this->successResponse( 'Data saved correctly', new DistrictResource($area) );
@@ -89,6 +91,8 @@ class AreaController extends Controller
         $request->validated();
         $area->name = $request->get('name');
         $area->zone_id = $request->get('zone_id');
+        $area->pickup_accept = $request->get('pickup_accept');
+        $area->delivery_accept = $request->get('delivery_accept');
         $area->status = $request->get('status');
         if ($area->save()) {
             $responseData = new areaResource($area);
