@@ -18,6 +18,7 @@ use App\Http\Controllers\WeightController;
 use App\Http\Controllers\PickuplocationController;
 use App\Http\Controllers\RidercostController;
 use \App\Http\Controllers\MerchantcostController;
+use \App\Http\Controllers\CalculatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,5 +95,6 @@ Route::resource('area', AreaController::class)->only(['index', 'show']);
 
 Route::get('user', [AuthController::class, 'user'])->middleware(['auth:sanctum']);
 Route::get('selectoption', SelectOption::class)->name('selectoption');
+Route::post('price-plan', [CalculatorController::class, 'orderCalculator'])->name('price-plan');
 
 require __DIR__.'/extra.php';
