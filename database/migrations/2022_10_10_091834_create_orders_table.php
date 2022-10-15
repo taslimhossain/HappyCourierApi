@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('order_id')->unique()->nullable(false);
             $table->unsignedBigInteger('pickup_id')->nullable(false);
             $table->foreign('pickup_id')->references('id')->on('pickuplocations');
-            $table->text('pickup_note', 65535)->nullable();
             $table->bigInteger('customer_name')->nullable(false);
             $table->bigInteger('customer_mobile')->nullable(false);
             $table->text('delivery_note', 65535)->nullable();
@@ -38,7 +37,20 @@ return new class extends Migration
             $table->foreign('service_id')->references('id')->on('servicetypes');
             $table->unsignedBigInteger('user_id')->nullable(false)->index();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->float('delivery_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('wight_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('ptype_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('stype_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('descount_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('additional_fee', 10, 0)->unsigned()->nullable()->default(0);
+            $table->float('total_fee', 10, 0)->unsigned()->nullable()->default(0);
             $table->integer('order_status_id')->nullable(false);
+            $table->unsignedBigInteger('delivery_boy_id')->nullable()->index();
+            $table->foreign('delivery_boy_id')->references('id')->on('users');
+            $table->unsignedBigInteger('pickup_boy_id')->nullable()->index();
+            $table->foreign('pickup_boy_id')->references('id')->on('users');
+            $table->unsignedBigInteger('transactions_id')->nullable()->index();
+            $table->foreign('transactions_id')->references('id')->on('ordertransactions');
             $table->timestamps();
         });
     }

@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Resources;
-
+use App\Models\District;
 use Illuminate\Http\Resources\Json\JsonResource;
-//use App\Models\Zone;
 
-class MerchantcostResource extends JsonResource
+class MerchantResource extends JsonResource
 {
 
     
@@ -14,7 +13,7 @@ class MerchantcostResource extends JsonResource
      *
      * @var string
      */
-    public static $wrap = 'merchantcost';
+    public static $wrap = 'merchant';
 
     /**
      * Transform the resource into an array.
@@ -26,14 +25,15 @@ class MerchantcostResource extends JsonResource
     {
         /** @var User $user */
         $item = $this;
-        //$zone = Zone::findOrFail($item->zone_id);
         return [
-            'id'              => $item->id,
-            'name'            => $item->name,
-            'discount_amount'  => $item->discount_amount,
-            'status'          => (bool) $item->status,
-            'created_at'      => $item->created_at->toISOString(),
-            'updated_at'      => $item->updated_at->toISOString()
+            'id'         => $item->id,
+            'name'       => $item->name,
+            'mobile_no'  => $item->mobile_no,
+            'email'      => $item->email,
+            'user_role'    => $item->user_role,
+            'status'     => (bool) $item->status,
+            'created_at' => $item->created_at->toISOString(),
+            'updated_at' => $item->updated_at->toISOString()
         ];
     }
 }

@@ -45,8 +45,6 @@ class MerchantcostController extends Controller
         $request->validated();
         $item = new Merchantcost();
         $item->name            = $request->get('name');
-        $item->pickup_amount   = $request->get('pickup_amount');
-        $item->delivery_amount = $request->get('delivery_amount');
         $item->discount_amount  = $request->get('discount_amount');
         $item->status          = $request->get('status');
         if($item->save()){
@@ -90,8 +88,6 @@ class MerchantcostController extends Controller
     {
         $request->validated();
         $merchantcost->name            = $request->get('name');
-        $merchantcost->pickup_amount   = $request->get('pickup_amount');
-        $merchantcost->delivery_amount = $request->get('delivery_amount');
         $merchantcost->discount_amount  = $request->get('discount_amount');
         $merchantcost->status          = $request->get('status');
         if($merchantcost->save()){

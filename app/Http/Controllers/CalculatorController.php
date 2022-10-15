@@ -35,6 +35,8 @@ class CalculatorController extends Controller
         $delivery_fee = 0;
         $district_price = 0;
         $wight_price = 0;
+        $product_type_price = 0;
+        $service_type_price = 0;
         $is_samecity = false;
 
         // weight calculator
@@ -42,7 +44,7 @@ class CalculatorController extends Controller
         $weight_inside_district = 0;
         $weight_outside_amount = 0;
         if($weight_id){
-            $weight = Weight::where('id', $weight_id)->firstOrFail();
+            $weight = Weight::where('id', $weight_id)->first();
             if($weight){
                 $weight_inside_amount = $weight->inside_amount;
                 $weight_inside_district = $weight->inside_district;
@@ -54,14 +56,14 @@ class CalculatorController extends Controller
 
         // checking is it same destrict or different
         if($store_id){
-            $store = Pickuplocation::where('id', $store_id)->firstOrFail();
-            $storeDistrict = District::where('id', $store->district_id)->firstOrFail();
+            $store = Pickuplocation::where('id', $store_id)->first();
+            $storeDistrict = District::where('id', $store->district_id)->first();
             if($storeDistrict){
                 if((int) $store->district_id === (int) $district_id){
                     $district_price = $storeDistrict->samedistrict;
                     $wight_price = $weight_inside_district;
                         if($zone_id){
-                            $zone = Zone::where('id', $zone_id)->firstOrFail();
+                            $zone = Zone::where('id', $zone_id)->first();
                             if( $zone ){
                                 $zone_district = $zone->district_id;
                                 if( (int) $zone_district === (int) $district_id && (bool) $zone->is_insidecity === true ){
@@ -77,17 +79,30 @@ class CalculatorController extends Controller
             }
         }
 
+        if($product_typeid){
+            $producttype = Producttype::where('id', $product_typeid)->first();
+            if($producttype){
+                $product_type_price = $producttype->amount;
+            }
+        }
+
+        if($service_id){
+            $servicetype = Servicetype::where('id', $service_id)->first();
+            if($servicetype){
+                $service_type_price = $servicetype->amount;
+            }
+        }
 
 
 
         // if($district_id){
 
 
-        //     $district = District::where('id', $district_id)->firstOrFail();
+        //     $district = District::where('id', $district_id)->first();
         //     $district_price = $district->outside;
       
         //     if($zone_id){
-        //         $zone = Zone::where('id', $zone_id)->firstOrFail();
+        //         $zone = Zone::where('id', $zone_id)->first();
         //         if($district->id === $zone->district_id){
         //             $district_price = $district->samedistrict;
         //         }
@@ -100,19 +115,18 @@ class CalculatorController extends Controller
         // }
 
 
+        $delivery_fee += $district_price+$wight_price+$product_type_price+$service_type_price;
 
-        $delivery_fee += $district_price;
-
-        
-
-        $number1 = rand(1,40);
-        $number2 = rand(40,100);
+        // $number1 = rand(1,40);
+        // $number2 = rand(40,100);
         $responseData = [
-            'delivery_fee'      => $delivery_fee,
-            'wight_price'      => $wight_price,
-            'discount'          => 0,
-            'additional_charge' => $number1,
-            'total_cost' => $number1 + $number2
+            'delivery_fee'       => $delivery_fee,
+            'wight_price'        => $wight_price,
+            'product_type_price' => $product_type_price,
+            'service_type_price' => $service_type_price,
+            'discount'           => 0,
+            'additional_charge'  => 0,
+            'total_cost'         => $delivery_fee
         ];
         return $this->successResponse($responseData);
     }

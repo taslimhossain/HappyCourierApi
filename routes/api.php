@@ -17,8 +17,10 @@ use App\Http\Controllers\ServicetypeController;
 use App\Http\Controllers\WeightController;
 use App\Http\Controllers\PickuplocationController;
 use App\Http\Controllers\RidercostController;
-use \App\Http\Controllers\MerchantcostController;
-use \App\Http\Controllers\CalculatorController;
+use App\Http\Controllers\MerchantcostController;
+use App\Http\Controllers\CalculatorController;
+use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\RiderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,18 +77,20 @@ Route::group(['prefix' => 'auth'], static function () {
 });
 
 Route::group(['prefix' => 'admin'], static function () {
-   Route::resource('dashboard ', DashboardController::class)->middleware(['auth:sanctum']);
-   Route::resource('district', DistrictController::class)->middleware(['auth:sanctum']);
-   Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
-   Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
-   Route::resource('producttype', ProductTypeController::class)->middleware(['auth:sanctum']);
-   Route::resource('hub', HubController::class)->middleware(['auth:sanctum']);
-   Route::resource('hubandzone', HubandzonesController::class)->middleware(['auth:sanctum']);
-   Route::resource('servicetype', ServicetypeController::class)->middleware(['auth:sanctum']);
-   Route::resource('weight', WeightController::class)->middleware(['auth:sanctum']);
-   Route::resource('pickuplocation', PickuplocationController::class)->middleware(['auth:sanctum']);
-   Route::resource('ridercost', RidercostController::class)->middleware(['auth:sanctum']);
-   Route::resource('merchantcost', MerchantcostController::class)->middleware(['auth:sanctum']);
+    Route::resource('merchant', MerchantController::class)->middleware(['auth:sanctum']);
+    Route::resource('rider', RiderController::class)->middleware(['auth:sanctum']);
+    Route::resource('dashboard ', DashboardController::class)->middleware(['auth:sanctum']);
+    Route::resource('district', DistrictController::class)->middleware(['auth:sanctum']);
+    Route::resource('zone', ZoneController::class)->middleware(['auth:sanctum']);
+    Route::resource('area', AreaController::class)->middleware(['auth:sanctum']);
+    Route::resource('producttype', ProductTypeController::class)->middleware(['auth:sanctum']);
+    Route::resource('hub', HubController::class)->middleware(['auth:sanctum']);
+    Route::resource('hubandzone', HubandzonesController::class)->middleware(['auth:sanctum']);
+    Route::resource('servicetype', ServicetypeController::class)->middleware(['auth:sanctum']);
+    Route::resource('weight', WeightController::class)->middleware(['auth:sanctum']);
+    Route::resource('pickuplocation', PickuplocationController::class)->middleware(['auth:sanctum']);
+    Route::resource('ridercost', RidercostController::class)->middleware(['auth:sanctum']);
+    Route::resource('merchantcost', MerchantcostController::class)->middleware(['auth:sanctum']);
 });
 Route::resource('district', DistrictController::class)->only(['index', 'show']);
 Route::resource('zone', ZoneController::class)->only(['index', 'show']);
